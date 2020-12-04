@@ -52,12 +52,22 @@ struct SDL_Smart
 	{
 		SDL_RenderClear(renderer.get());
 	}
-	static void sdl_rendercopy(SDL_SmartRenderer& renderer, SDL_SmartTexture& tex, SDL_Rect* src, SDL_Rect* dest)
+
+	static void sdl_rendercopy(SDL_SmartRenderer& renderer, SDL_SmartTexture& tex, unique_ptr<SDL_Rect>& src, unique_ptr<SDL_Rect>& dest)
 	{
-
-
-		SDL_RenderCopy(renderer.get(), tex.get(), src, dest);
+		SDL_RenderCopy(renderer.get(), tex.get(), src.get(), dest.get());
 	}
+
+	static void sdl_rendercopy(SDL_SmartRenderer& renderer, SDL_SmartTexture& tex, std::nullptr_t src, unique_ptr<SDL_Rect>& dest)
+	{
+		SDL_RenderCopy(renderer.get(), tex.get(), NULL, dest.get());
+	}
+
+	static void sdl_rendercopy(SDL_SmartRenderer& renderer, SDL_SmartTexture& tex, unique_ptr<SDL_Rect>& src, std::nullptr_t dest)
+	{
+		SDL_RenderCopy(renderer.get(), tex.get(), src.get(), NULL);
+	}
+
 	static void sdl_renderpresent(SDL_SmartRenderer& renderer)
 	{
 		SDL_RenderPresent(renderer.get());

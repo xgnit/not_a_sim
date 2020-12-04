@@ -8,11 +8,8 @@ using std::unique_ptr;
 
 SDL_SmartTexture playertex;
 
-SDL_Rect src_rect;
-SDL_Rect dest_rect;
-
-unique_ptr<SDL_Rect> tmp = std::make_unique<SDL_Rect>();
-
+unique_ptr<SDL_Rect> src_rect = NULL;
+unique_ptr<SDL_Rect> dest_rect = std::make_unique<SDL_Rect>();
 
 Game::~Game()
 {
@@ -65,8 +62,8 @@ void Game::handle_events()
 
 void Game::update()
 {
-	dest_rect.h = 64;
-	dest_rect.w = 64;
+	dest_rect->h = 64;
+	dest_rect->w = 64;
 	//dest_rect.x += 1;
 	//dest_rect.y += 1;
 
@@ -78,15 +75,13 @@ void Game::update()
 void Game::render()
 {
 	SDL_Smart::sdl_renderclear(renderer);
-	SDL_Smart::sdl_rendercopy(renderer, playertex, NULL, &dest_rect);
+	SDL_Smart::sdl_rendercopy(renderer, playertex, NULL, dest_rect);
 	SDL_Smart::sdl_renderpresent(renderer);
 
 }
 
 void Game::clean()
 {
-	//SDL_DestroyWindow(window.get());
-	//SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	cout << "game terminated" << endl;
 }
