@@ -4,7 +4,8 @@
 #include <SDL_image.h>
 #include <iostream>
 #include "SDL_SmartPointer.h"
-#include "TextureManager.h"
+
+#include "GameObject.h"
 
 class Game
 {
@@ -25,6 +26,8 @@ private:
 	SDL_SmartWindow window;
 	SDL_SmartRenderer renderer;
 	int cnt = 0;
+
+	std::shared_ptr<GameObject> obj;
 
 	// 60 is the fps
 	static const int frame_delay = 1000/60;

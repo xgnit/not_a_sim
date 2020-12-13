@@ -6,7 +6,6 @@ using std::endl;
 using std::cout;
 using std::unique_ptr;
 
-SDL_SmartTexture playertex;
 
 unique_ptr<SDL_Rect> src_rect = NULL;
 unique_ptr<SDL_Rect> dest_rect = std::make_unique<SDL_Rect>();
@@ -43,7 +42,10 @@ void Game::init(std::string title, int xpos, int ypos, int width, int height, bo
 	{
 		is_running = false;
 	}
-	playertex = SDL_SmartPointer::create_texture("Assets/player.png", renderer);
+
+
+	obj = std::make_shared<GameObject>("Assets/player.png", renderer);
+
 }
 
 void Game::handle_events()
@@ -62,20 +64,13 @@ void Game::handle_events()
 
 void Game::update()
 {
-	dest_rect->h = 64;
-	dest_rect->w = 64;
-	//dest_rect.x += 1;
-	//dest_rect.y += 1;
-
-	++cnt;
-	cout << cnt << endl;
-
+	obj->update();
 }
 
 void Game::render()
 {
 	SDL_Smart::sdl_renderclear(renderer);
-	SDL_Smart::sdl_rendercopy(renderer, playertex, NULL, dest_rect);
+	obj->render();
 	SDL_Smart::sdl_renderpresent(renderer);
 
 }

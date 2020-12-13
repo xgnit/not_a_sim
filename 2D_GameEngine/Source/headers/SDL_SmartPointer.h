@@ -11,7 +11,7 @@ struct sdl_deleter
 
 using std::unique_ptr;
 using SDL_SmartWindow = unique_ptr<SDL_Window, sdl_deleter>;
-using SDL_SmartRenderer = unique_ptr<SDL_Renderer, sdl_deleter>;
+using SDL_SmartRenderer = std::shared_ptr<SDL_Renderer>;
 using SDL_SmartTexture = unique_ptr<SDL_Texture, sdl_deleter>;
 
 struct SDL_SmartPointer 
@@ -26,7 +26,7 @@ public:
 	}
 	
 	static SDL_SmartTexture
-		create_texture(std::string pic, unique_ptr<SDL_Renderer, sdl_deleter>& renderer)
+		create_texture(std::string pic, std::shared_ptr<SDL_Renderer> renderer)
 	{
 		SDL_Surface* tmp_surf = IMG_Load(pic.c_str());
 		auto tex = SDL_SmartTexture(
